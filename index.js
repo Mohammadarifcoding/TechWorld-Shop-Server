@@ -23,6 +23,8 @@ const client = new MongoClient(uri, {
 });
 const Service = client.db('TechWorld_Shop').collection('ServiceSection');
 const Brand= client.db('TechWorld_Shop').collection('BrandName');
+const BrandSlider= client.db('TechWorld_Shop').collection('BrandSlider');
+const Product= client.db('TechWorld_Shop').collection('Brand_Product');
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -34,7 +36,24 @@ async function run() {
         const result = await cursor.toArray()
         res.send(result)
     })
+    app.get('/slider/:name',async(req,res)=>{
+         const name = req.params.name
+         const query = {brandName : name }
+         const result = await BrandSlider.findOne(query)
+         res.send(result)
+    })
 
+    app.get('/BrandProduct/:name',async(req,res)=>{
+         const BrandName = req.params.name
+         const query = {brandName :{$eq : BrandName}}
+         const result = await Product.find(query).toArray()
+         res.send(result)
+    })
+  app.get('/BrandProduct',async(req,res)=>{
+    const AllBrand = Product.find()
+    const result = await AllBrand.toArray()
+    res.send(result)
+  })
     app.get('/Brand',async(req,res)=>{
       const cursor = Brand.find()
       const result = await cursor.toArray()

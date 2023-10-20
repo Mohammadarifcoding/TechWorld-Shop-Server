@@ -140,7 +140,7 @@ async function run() {
          const result = await Product.find(query).toArray()
          res.send(result)
     })
-  app.get('/BrandProduct',async(req,res)=>{
+  app.get('/BrandProduct',async(req,res)=>{ 
     const AllBrand = Product.find()
     const result = await AllBrand.toArray()
     res.send(result)
